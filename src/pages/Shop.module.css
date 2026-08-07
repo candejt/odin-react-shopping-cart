@@ -1,0 +1,75 @@
+.container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.status {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 3rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.card {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  background-color: white;
+}
+
+.image {
+  width: 100%;
+  height: 180px;
+  object-fit: contain;
+  margin-bottom: 16px;
+}
+
+.title {
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: rgb(72, 95, 131);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.price {
+  font-size: 20px;
+  font-weight: bold;
+  color: rgb(72, 95, 131);
+  margin-bottom: 16px;
+}
+
+.button {
+  background-color: rgb(113, 151, 208);
+  color: #ffffff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  width: 100%;
+  transition: background-color 0.2s ease;
+}
+
+.button:hover {
+  background-color: rgb(72, 95, 131);
+}
+
+h1 {
+  color: rgb(113, 151, 208);
+}

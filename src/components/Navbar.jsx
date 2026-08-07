@@ -6,7 +6,7 @@ export default function Navbar() {
     <header className={styles.header}>
       <nav className={styles.nav}>
         <Link to="/" className={styles.logo}>
-          My Store
+          BlueBlue Store
         </Link>
 
         <ul className={styles.navLinks}>
