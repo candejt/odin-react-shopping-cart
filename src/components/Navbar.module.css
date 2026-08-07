@@ -1,0 +1,47 @@
+.header {
+  width: 100%;
+  background-color: white;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 16px 32px;
+}
+
+.nav {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 25px;
+  font-weight: bold;
+  text-decoration: none;
+  color: rgb(113, 151, 208);
+}
+
+.navLinks {
+  display: flex;
+  gap: 25px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.navLinks a {
+  text-decoration: none;
+  color: rgb(113, 151, 208);
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.navLinks a:hover {
+  color: #2563eb;
+}
+
+.cartLink {
+  background-color: #f3f4f6;
+  padding: 10px 12px;
+  border-radius: 6px;
+}

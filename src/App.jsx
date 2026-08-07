@@ -14,7 +14,6 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="*" element={<h1>404 - Page not found</h1>}></Route>
         </Routes>
-      
     </div>
   );
 }
