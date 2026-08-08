@@ -1,6 +1,8 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import Shop from "./Shop";
+import userEvent from "@testing-library/user-event";
+import { fireEvent } from "@testing-library/react";
 
 const mockProducts = [
   {
@@ -27,7 +29,8 @@ describe("Shop component", () => {
       ok: true,
       json: async () => mockProducts,
     });
-    render(<Shop />);
+
+    render(<Shop addToCart={vi.fn()} />);
 
     await waitFor(() => {
       expect(screen.getByText("Fjallraven Backpack")).toBeInTheDocument();
@@ -36,12 +39,39 @@ describe("Shop component", () => {
     expect(screen.queryByText(/loading products/i)).not.toBeInTheDocument();
   });
 
+  it("handles addToCart with input quantity", async () => {
+    const handleAddToCart = vi.fn();
+    const user = userEvent.setup();
+
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => mockProducts,
+    });
+
+    render(<Shop addToCart={handleAddToCart} />);
+
+    await waitFor(() => {
+      expect(screen.getByText("Fjallraven Backpack")).toBeInTheDocument();
+    });
+
+    const quantityInput = screen.getAllByRole("spinbutton");
+    const addButtons = screen.getAllByRole("button", { name: /add to cart/i });
+
+    expect(quantityInput[0]).toHaveValue(1);
+
+    fireEvent.change(quantityInput[0], { target: { value: "3" } });
+    await user.click(addButtons[0]);
+
+    expect(handleAddToCart).toHaveBeenCalledTimes(1);
+    expect(handleAddToCart).toHaveBeenCalledWith(mockProducts[0], 3);
+  });
+
   it("renders error message when fetch fails", async () => {
     global.fetch = vi.fn().mockResolvedValue({
       ok: false,
       json: async () => mockProducts,
     });
-    render(<Shop />);
+    render(<Shop addToCart={vi.fn()} />);
 
     await waitFor(() => {
       expect(screen.getByText(/error loading products/i)).toBeInTheDocument();
