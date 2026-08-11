@@ -44,15 +44,18 @@ function App() {
     setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
   };
 
-  const totalItemsCount = cart.reduce((total, item) => total + item.quantity);
+  const totalItemsCount = cart.reduce(
+    (total, item) => total + item.quantity,
+    0,
+  );
 
   return (
     <div>
-      <Navbar />
+      <Navbar itemCount={totalItemsCount} />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/shop" element={<Shop />} />
-        <Route path="/cart" element={<Cart />} />
+        <Route path="/shop" element={<Shop addToCart={addToCart} />} />
+        <Route path="/cart" element={<Cart cart={cart} />} />
         <Route path="*" element={<h1>404 - Page not found</h1>}></Route>
       </Routes>
     </div>

@@ -47,6 +47,22 @@ export default function Shop({ addToCart }) {
   if (error)
     return <p className={styles.status}>Error loading products: {error}</p>;
 
+  const handleDecrement = (productId) => {
+    setQuantities((prev) => {
+      const currentQuantity = prev[productId] ?? 1;
+      return { ...prev, [productId]: Math.max(1, currentQuantity - 1) };
+    });
+  };
+  const handleIncrement = (productId) => {
+    setQuantities((prev) => {
+      const currentQuantity = prev[productId] ?? 1;
+      return { ...prev, [productId]: currentQuantity + 1 };
+    });
+  };
+  const handleResetQuantity = (productId) => {
+    setQuantities((prev) => ({ ...prev, [productId]: 1 }));
+  };
+
   return (
     <main className={styles.container}>
       <h1>Our Products</h1>
@@ -61,16 +77,58 @@ export default function Shop({ addToCart }) {
             <h2 className={styles.title}>{product.title}</h2>
             <p className={styles.price}>${product.price}</p>
 
-            <div>
+            <div className={styles.quantityContainer}>
+              <button
+                type="button"
+                onClick={() => handleDecrement(product.id)}
+                className={styles.qtyBtn}
+                aria-label="Decrease quantity"
+              >
+                -
+              </button>
+
               <input
                 type="number"
                 min="1"
-                value={quantities[product.id] || 1}
-                onChange={(e) =>
-                  handleQuantityChange(product.id, e.target.value)
-                }
-                className={styles.quantityInput}
+                value={quantities[product.id] ?? 1}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  setQuantities((prev) => ({
+                    ...prev,
+                    [product.id]:
+                      val === "" ? "" : Math.max(1, parseInt(val, 10) || 1),
+                  }));
+                }}
+                onBlur={() => {
+                  if (
+                    !quantities[product.id] ||
+                    quantities[product.id] === ""
+                  ) {
+                    setQuantities((prev) => ({ ...prev, [product.id]: 1 }));
+                  }
+                }}
+                className={styles.qtyInput}
               />
+              <button
+                type="button"
+                onClick={() => handleIncrement(product.id)}
+                className={styles.qtyBtn}
+                aria-label="Increase quantity"
+              >
+                +
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleResetQuantity(product.id)}
+                className={styles.deleteBtn}
+                aria-label="Reset quantity"
+                title="Reset quantity to 1"
+              >
+                🗑️
+              </button>
+            </div>
+            <div>
               <button
                 className={styles.button}
                 onClick={() =>
