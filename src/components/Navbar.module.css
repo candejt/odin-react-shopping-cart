@@ -1,7 +1,7 @@
 .header {
   width: 100%;
   background-color: white;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid rgb(228, 236, 249);
   padding: 16px 32px;
 }
 
@@ -14,8 +14,10 @@
 }
 
 .logo {
-  font-size: 25px;
-  font-weight: bold;
+  font-size:35px;
+  font-family: "Dancing Script", cursive;
+  font-weight:bolder;
+  font-style: normal;
   text-decoration: none;
   color: rgb(113, 151, 208);
 }
@@ -37,11 +39,11 @@
 }
 
 .navLinks a:hover {
-  color: #2563eb;
+  color: rgb(72, 95, 131);
 }
 
 .cartLink {
-  background-color: #f3f4f6;
+  background-color: rgb(228, 236, 249);
   padding: 10px 12px;
   border-radius: 6px;
 }

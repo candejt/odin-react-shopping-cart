@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import styles from "./Shop.module.css";
+import ProductCard from "../components/ProductCard";
 
-export default function Shop({ addToCart }) {
+export default function Shop({ addToCart, product = [] }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -36,10 +37,9 @@ export default function Shop({ addToCart }) {
   }, []);
 
   const handleQuantityChange = (productId, value) => {
-    const num = Math.max(1, Number(value));
     setQuantities((prev) => ({
       ...prev,
-      [productId]: num,
+      [productId]: value === "" ? "" : Math.max(1, parseInt(value, 10) || 1),
     }));
   };
 
@@ -63,82 +63,28 @@ export default function Shop({ addToCart }) {
     setQuantities((prev) => ({ ...prev, [productId]: 1 }));
   };
 
+  const handleQuantityBlur = (productId) => {
+    if (!quantities[productId] || quantities[productId] === "") {
+      setQuantities((prev) => ({ ...prev, [productId]: 1 }));
+    }
+  };
+
   return (
-    <main className={styles.container}>
-      <h1>Our Products</h1>
+    <main className={styles.shopContainer}>
+      <h2>Our Products</h2>
       <div className={styles.grid}>
         {products.map((product) => (
-          <article key={product.id} className={styles.card}>
-            <img
-              src={product.image}
-              alt={product.title}
-              className={styles.image}
-            />
-            <h2 className={styles.title}>{product.title}</h2>
-            <p className={styles.price}>${product.price}</p>
-
-            <div className={styles.quantityContainer}>
-              <button
-                type="button"
-                onClick={() => handleDecrement(product.id)}
-                className={styles.qtyBtn}
-                aria-label="Decrease quantity"
-              >
-                -
-              </button>
-
-              <input
-                type="number"
-                min="1"
-                value={quantities[product.id] ?? 1}
-                onChange={(e) => {
-                  const val = e.target.value;
-                  setQuantities((prev) => ({
-                    ...prev,
-                    [product.id]:
-                      val === "" ? "" : Math.max(1, parseInt(val, 10) || 1),
-                  }));
-                }}
-                onBlur={() => {
-                  if (
-                    !quantities[product.id] ||
-                    quantities[product.id] === ""
-                  ) {
-                    setQuantities((prev) => ({ ...prev, [product.id]: 1 }));
-                  }
-                }}
-                className={styles.qtyInput}
-              />
-              <button
-                type="button"
-                onClick={() => handleIncrement(product.id)}
-                className={styles.qtyBtn}
-                aria-label="Increase quantity"
-              >
-                +
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleResetQuantity(product.id)}
-                className={styles.deleteBtn}
-                aria-label="Reset quantity"
-                title="Reset quantity to 1"
-              >
-                🗑️
-              </button>
-            </div>
-            <div>
-              <button
-                className={styles.button}
-                onClick={() =>
-                  addToCart(product, Number(quantities[product.id] || 1))
-                }
-              >
-                Add to Cart
-              </button>
-            </div>
-          </article>
+          <ProductCard
+            key={product.id}
+            product={product}
+            quantity={quantities[product.id]}
+            onIncrement={handleIncrement}
+            onDecrement={handleDecrement}
+            onReset={handleResetQuantity}
+            onQuantityChange={handleQuantityChange}
+            onQuantityBlur={handleQuantityBlur}
+            onAddToCart={addToCart}
+          />
         ))}
       </div>
     </main>
